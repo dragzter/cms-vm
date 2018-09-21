@@ -15,16 +15,25 @@ include "includes/header.php";
             <div class="col-md-8"><?php 
 
                 $query = "SELECT * FROM posts";
+                
 
-                $select_all_posts_query = mysqli_query($connection, $query );
+                $select_all_posts_query = mysqli_query($connection, $query);
+
+                if ($select_all_posts_query) {
+                    echo "<script>console.log('Query Successful. Displaying data.')</script>";
+                } else {
+                    echo "<script>console.log('Error: Query Failed.')</script>";
+                }
 
                 while($row = mysqli_fetch_assoc($select_all_posts_query)) {
+
                     
                     $post_title = $row['post_title'];
                     $post_author = $row['post_author'];
                     $post_date = $row['post_date'];
                     $post_image = $row['post_image'];
-                    $post_content = $row['post_content']; ?>
+                    $post_content = $row['post_content'];
+                    $post_id = $row['post_id']; ?>
 
                     <h1 class="page-header">
                         Page Heading
@@ -42,7 +51,8 @@ include "includes/header.php";
                     <span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date; ?>
                 </p>
                     <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
+                <img class="img-responsive" src="<?php echo $post_image ? 'images/'.$post_image : '//placehold.it/900x300' ?>" alt="Blog Image <?php echo $post_id; ?>">
+
                     <hr>
                 <p><?php echo $post_content; ?></p>
                
